@@ -1,10 +1,24 @@
-function CustomVStack(range, skipEmpty, sheetName) {
+function CustomVStack(range, skipEmpty) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
+  // Get the formula of the active range
+  var formula = SpreadsheetApp.getActiveRange().getFormula();
 
-  // If sheetName is provided, get the sheet with that name, else get the active sheet
-  var sheet = sheetName ? ss.getSheetByName(sheetName) : ss.getActiveSheet();
+  // Extract the arguments from the formula
+  var args = formula.match(/=\w+\((.*)\)/i)[1].split(',');
 
-  // Get the range object based on the provided range
+  // Extract sheet name and range from the arguments
+  var args = args[0].split('!');
+  // If sheet name is provided, get the sheet with that name, else get the active sheet
+  if (args.length === 2) {
+    var sheetName = args[0].replace(/^'/, '').replace(/'$/, '');
+    var range = args[1];
+    var sheet = ss.getSheetByName(sheetName);
+  }
+  else {
+    range = args[0];
+    sheet = ss.getActiveSheet();
+  }
+  // Get the range object based on the extracted range and sheet
   var selectedRange = sheet.getRange(range);
 
   // Get the number of rows and columns in the selected range
@@ -21,14 +35,14 @@ function CustomVStack(range, skipEmpty, sheetName) {
   for (var col = 0; col < numCols; col++) {
     for (var row = 0; row < numRows; row++) {
       // Check if the skipEmpty flag is set and if the current cell is not empty
-      if (skipEmpty==true || skipEmpty == undefined) {
+      if (skipEmpty == true || skipEmpty == undefined) {
         // If the cell is not empty, push its value to the result array
         if (rangeValues[row][col] !== '') {
           result.push(rangeValues[row][col]);
         }
       }
       // If skipEmpty is not set, push the value to the result array regardless
-      else{
+      else {
         result.push(rangeValues[row][col]);
       }
     }
