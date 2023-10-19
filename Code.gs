@@ -1,6 +1,8 @@
-function CustomVStack(range, skipEmpty) {
+function CustomVStack(range, skipEmpty, sheetName) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getActiveSheet();
+
+  // If sheetName is provided, get the sheet with that name, else get the active sheet
+  var sheet = sheetName ? ss.getSheetByName(sheetName) : ss.getActiveSheet();
 
   // Get the range object based on the provided range
   var selectedRange = sheet.getRange(range);
