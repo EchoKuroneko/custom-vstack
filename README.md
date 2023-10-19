@@ -19,7 +19,7 @@ This custom function was created to simplify the process of vertically stacking 
 ### Function
 
 ```javascript
-CustomVStack(range, skipEmpty)
+CustomVStack(range, skipEmpty, sheetName)
 ```
 
 ### Parameters
@@ -35,12 +35,20 @@ CustomVStack(range, skipEmpty)
     ${\color{lightblue}Input}$ : `boolean`
     
     ${\color{lightgreen}Default}$ : `True`
+  
+- sheetName (${\color{orange}optional}$) : Name of the sheet to be used.
+
+    ${\color{lightgreen}Default}$ : Uses Active Sheet
     
 > [!NOTE]
 > The range parameter must be provided as a string within the formula and USES the active sheet ONLY.
 
 ### Example
 
+```
+=CustomVStack("A1:C10", True, "Sheet1")
+```
+Or,
 ```
 =CustomVStack("A1:C10", True)
 ```
